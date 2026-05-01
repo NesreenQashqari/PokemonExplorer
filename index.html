@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Pokémon Explorer</title>
+</head>
+
+<body>
+<!-- main content -->
+    <div class="content">
+
+<!-- header  title & faves  button -->
+    <header class="site-header">
+        <div class="header-text">
+
+            <h1 class="site-title">Pokémon Explorer</h1>
+            <p class="site-subtitle">Search & discover your favorite Pokémon!</p>
+
+        </div>
+<!-- faves button  -->
+        <button id="favNavBtn" class="fav-toggle-btn">
+            <i class="bi bi-star-fill"></i>
+
+            <span>Favorites</span>
+            <span class="fav-count" id="favCount">0</span>
+
+        </button>
+    </header>
+
+<!-- search bar & buttons -->
+    <div class="search-container">
+            <div class="search-input-wrap">
+
+               
+                <input type="text" id="pokemonInput" placeholder="e.g. Pikachu, Eevee, 25…" autocomplete="off">
+                
+            </div>
+
+            <div class="btn-group">
+                <button id="searchBtn" class="btn btn-search">
+                    <i class="bi bi-search"></i> Search
+                </button>
+                <button id="randomBtn" class="btn btn-random">
+                    <i class="bi bi-shuffle"></i> Random
+                </button>
+                <button id="clearBtn" class="btn btn-clear">
+                    <i class="bi bi-trash"></i> Clear
+                </button>
+            </div>
+    </div>
+<!-- error message -->
+               <p id="errorMsg" class="error-msg"></p>
+<!-- search results  -->
+        <div id="result" class="result-grid"></div>
+
+    </div>
+
+
+<!-- favorites sidebar  -->
+    <div id="favoritesSidebar" class="favorites-sidebar">
+        <div class="sidebar-header">
+
+            <h3><i class="bi bi-star-fill"></i> Favorites</h3>
+            <button id="closeSidebar" class="close-btn"><i class="bi bi-x-lg"></i></button>
+
+        </div>
+        <div id="favoritesContainer"></div>
+    </div>
+
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <footer>
+        <p>Data provided by <strong>PokéAPI</strong></p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

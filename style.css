@@ -1,0 +1,512 @@
+
+/* color variables so i dont have to repeat them */
+:root {
+    --blue-dark:   #09326D;
+    --blue-mid:    #2D58A9;
+    --blue-light:  #91A6D1;
+    --blue-pale:   #b5c9f3;
+    --green-bg:    #659e54;
+    --white-glass: rgba(255,255,255,0.88);
+    --white-soft:  rgba(255,255,255,0.60);
+    --shadow:      0 8px 32px rgba(9,50,109,0.18);
+    --radius:      20px;
+    --font-title:  'Fredoka', sans-serif;
+    --font-body:   'Nunito', sans-serif;
+}
+
+/* reset default browser styles */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    height: 100%;
+}
+
+/* background image  */
+body {
+    font-family: var(--font-body);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    background-image: url("PokemonBG3.png");
+    background-size: cover;
+    background-position: center 10%;
+    background-repeat: no-repeat;
+    background-color: var(--blue-dark);
+    background-attachment: scroll;
+
+    overflow-x: hidden;
+}
+.content {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 60px;
+}
+
+/* header*/
+.site-header {
+    display: flex;
+    margin-top: 24px;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 100px 48px 0;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.site-title {
+    font-family: var(--font-title);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    color: var(--blue-dark);
+    text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.site-subtitle {
+    font-size: 16px;
+    color: var(--blue-dark);
+    opacity: 0.75;
+    margin-top: 6px;
+}
+
+/* favorites button in the header */
+.fav-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white-glass);
+    border: 2px solid var(--blue-mid);
+    color: var(--blue-dark);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px 18px;
+    border-radius: 50px;
+    transition: all 0.2s;
+}
+.fav-toggle-btn:hover {
+    background: var(--blue-pale);
+    transform: translateY(-2px);
+}
+.fav-toggle-btn .bi-star-fill { color: #f5c518; font-size: 16px; }
+
+/* little number badge  */
+.fav-count {
+    background: var(--blue-dark);
+    color: white;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 50px;
+    min-width: 24px;
+    text-align: center;
+}
+
+/* search bar row */
+.search-container {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 28px 48px 0;
+    flex-wrap: wrap;
+}
+
+/* wrapper for input + search icon inside it */
+.search-input-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+}
+
+/*  text input */
+#pokemonInput {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    background: rgba(45,88,169,0.85);
+    color: #ffffff;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    backdrop-filter: blur(6px);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+#pokemonInput:focus {
+    border-color: var(--blue-pale);
+    box-shadow: 0 0 0 3px rgba(145,166,209,0.3);
+}
+#pokemonInput::placeholder { color: rgba(255,255,255,0.45); }
+
+/* shared button styles */
+.btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 20px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 50px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.btn:active { transform: scale(0.96); }
+
+/* search button - dark blue */
+.btn-search {
+    background: var(--blue-dark);
+    color: white;
+    border-color: var(--blue-dark);
+    box-shadow: 0 4px 14px rgba(9,50,109,0.35);
+}
+.btn-search:hover { background: #0a3d87; transform: translateY(-2px); }
+
+/* random button */
+.btn-random {
+     background: var(--white-glass);
+    color: var(--blue-dark);
+    border-color: rgba(9,50,109,0.35);
+}
+.btn-random:hover { background: var(--blue-pale); transform: translateY(-2px); }
+
+/* clear button  */
+.btn-clear {
+     background: var(--white-glass);
+    color: var(--blue-dark);
+    border-color: rgba(9,50,109,0.35);
+}
+.btn-clear:hover { background: var(--blue-pale); transform: translateY(-2px); }
+
+/* card grid , centered  */
+.result-grid {
+    padding: 28px 48px 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* the pokemon card itself */
+.pokemon-card {
+    background: var(--white-glass);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow), 0 2px 0 rgba(255,255,255,0.8) inset;
+    border: 2px solid rgba(255,255,255,0.7);
+    width: 100%;
+    max-width: 480px;
+    padding: 0;
+    overflow: hidden;
+    animation: cardSlideIn 0.4s ;
+}
+
+/* slide in animation when a new card appears */
+@keyframes cardSlideIn {
+    from { opacity:0; transform:translateY(24px) scale(0.90); }
+    to   { opacity:1; transform:none; }
+}
+
+/* colored top band of the card (color based on pokemon type) */
+.card-header-band {
+    padding: 16px 22px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: relative;
+}
+
+.poke-name {
+    font-family: var(--font-title);
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: capitalize;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.25);
+    letter-spacing: 0.5px;
+}
+
+/* id badge */
+.poke-id-badge {
+    font-weight: 700;
+    font-size: 14px;
+    background: rgba(255,255,255,0.25);
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 4px 12px;
+    border-radius: 50px;
+    backdrop-filter: blur(4px);
+}
+
+/* card body  */
+.card-body {
+    display: flex;
+    gap: 0;
+    padding: 0;
+}
+
+/* left : pokemon image aand  type  */
+.card-left {
+    flex: 0 0 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px 20px;
+    position: relative;
+    background: rgba(255,255,255,0.3);
+    border-right: 1px solid rgba(255,255,255,0.5);
+}
+
+/* pokemon sprite image */
+.pokemon-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 6px 14px rgba(9,50,109,0.25));
+    transition: transform 0.3s ease;
+}
+
+/* type badges row below sprite */
+.types-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.type-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 11px;
+    border-radius: 50px;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* right : the 5 info fields */
+.card-right {
+    flex: 1;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* each info field (label + value) */
+.stat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--blue-light);
+}
+.stat-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--blue-dark);
+    text-transform: capitalize;
+}
+
+/* add to favorites button at the bottom of the card */
+.action-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-top: 1px solid rgba(9,50,109,0.08);
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+    color: white;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+}
+.action-btn:hover { filter: brightness(1.15); }
+.action-btn:active { transform: scale(0.99); }
+
+/* turns green when already added */
+.action-btn.added {
+    background: linear-gradient(135deg, #1e096a, #5455a6);
+}
+
+/* error message under the search bar */
+.error-msg {
+    padding: 0 48px;
+    color: #cc3333;
+    font-weight: 700;
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    min-height: 20px;
+}
+/* favorites sidebar that slides in from the right */
+.favorites-sidebar {
+    position: fixed;
+    top: 0;
+    right: -340px;
+    width: 320px;
+    height: 100vh;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(16px);
+    box-shadow: -8px 0 40px rgba(9,50,109,0.18);
+    border-left: 1px solid rgba(9,50,109,0.1);
+    padding: 0;
+    overflow-y: auto;
+    z-index: 9999;
+    transition: right 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+/* add .open class to show it */
+.favorites-sidebar.open { right: 0; }
+
+/*  header inside sidebar */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 16px;
+    border-bottom: 2px solid rgba(9,50,109,0.08);
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.97);
+    z-index: 1;
+}
+.sidebar-header h3 {
+    font-family: var(--font-title);
+    font-size: 22px;
+    color: var(--blue-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.sidebar-header .bi-star-fill { color: #f5c518; }
+
+/* x button to close sidebar */
+.close-btn {
+    background: none;
+    border: 1px solid rgba(9, 51, 109, 0.427);
+    color: var(--blue-dark);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    padding: 0;
+}
+.close-btn:hover { background: rgba(9,50,109,0.08); }
+
+/* dark overlay behind sidebar */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.25);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+.sidebar-overlay.visible { opacity: 1; pointer-events: all; }
+
+/* list of favorite cards inside the sidebar */
+#favoritesContainer {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* single favorite item */
+.fav-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(9,50,109,0.04);
+    border: 1px solid rgba(9,50,109,0.1);
+    border-radius: 14px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    animation: fadeIn 0.3s ease;
+}
+.fav-card:hover { background: var(--blue-pale); border-color: var(--blue-mid); transform: translateX(-3px); }
+
+.fav-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+}
+.fav-info { flex: 1; }
+.fav-info strong {
+    display: block;
+    font-family: var(--font-title);
+    font-size: 17px;
+    color: var(--blue-dark);
+    text-transform: capitalize;
+}
+.fav-info small {
+    font-size: 12px;
+    color: var(--blue-light);
+    font-weight: 700;
+}
+
+/* remove button on each favorite */
+.fav-remove {
+    background: none;
+    border: 1px solid rgba(255,80,80,0.3);
+    color: #cc3333;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    padding: 0;
+    flex-shrink: 0;
+}
+.fav-remove:hover { background: #ff4d4d; color: white; border-color: #ff4d4d; }
+
+/* shown when favorites list is empty */
+.no-favorites {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--blue-light);
+    font-size: 14px;
+}
+.no-favorites .bi { font-size: 36px; display: block; margin-bottom: 10px; opacity: 0.4; }
+
+/* footer at the bottom */
+footer {
+    text-align: center;
+    padding: 14px;
+    color: var(--blue-dark);
+    font-weight: 600;
+    font-size: 13px;
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(4px);
+    border-top: 1px solid rgba(255,255,255,0.5);
+    position: relative;
+    z-index: 1;
+}
